@@ -23,7 +23,7 @@ Enjoy the Adventure: Above all, have fun! Slithering Serpent is all about enjoyi
 
 Are you ready to embark on this retro gaming adventure? Start playing Slithering Serpent now and see how long you can keep your snake alive!
 
-![alt text](public/img/snakegame.png)
+![alt text](public/dist/img/snakegame.png)
 
 
 
@@ -35,4 +35,3 @@ npm i
 ```bash
 npm run dev
 
-test 12
