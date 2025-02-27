@@ -27,11 +27,14 @@ Are you ready to embark on this retro gaming adventure? Start playing Slithering
 
 
 
-**Install node modules**
+#Install node modules/dependencies
+
+
 ```bash
 npm i 
 
-**Start the dev server**
+```bash
+npm run build
+
 ```bash
 npm run dev
-
