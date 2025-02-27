@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 
 require('dotenv').config();
@@ -16,8 +15,8 @@ app.use(express.static(path.join(__dirname, 'public', 'dist')));
 app.use('/sounds', express.static(path.join(__dirname, 'public', 'sounds')));
 app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
 
-// Serve favicon
-app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
+// Remove or comment out this line:
+// app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 
 // Catch-all route for React app
 app.get('*', (req, res) => {
