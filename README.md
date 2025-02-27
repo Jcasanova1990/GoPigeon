@@ -27,7 +27,7 @@ Are you ready to embark on this retro gaming adventure? Start playing Slithering
 
 
 
-#Install node modules/dependencies
+**Install node modules/dependencies**
 
 
 ```bash
