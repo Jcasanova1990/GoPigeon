@@ -11,17 +11,15 @@ const app = express();
 app.use(express.json());
 app.use(logger('dev'));
 
-// Serve static files from 'public/dist' (assuming Vite outputs there)
+// Serve static files correctly
 app.use(express.static(path.join(__dirname, 'public', 'dist')));
+app.use('/sounds', express.static(path.join(__dirname, 'public', 'sounds')));
+app.use('/img', express.static(path.join(__dirname, 'public', 'img')));
 
-// Serve favicon (ensure it's inside 'img' in the root directory)
-app.use(favicon(path.join(__dirname, 'img', 'favicon.ico')));
+// Serve favicon
+app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 
-// Keep access to root-level 'img' and 'sounds' folders
-app.use('/img', express.static(path.join(__dirname, 'img')));
-app.use('/sounds', express.static(path.join(__dirname, 'sounds')));
-
-// Catch-all route to serve index.html for React app
+// Catch-all route for React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dist', 'index.html'));
 });
