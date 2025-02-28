@@ -35,9 +35,9 @@ const SnakeGame = React.forwardRef((props, ref) => {
   const [welcomeScreen, setWelcomeScreen] = useState(true);
   const gameLoop = useRef(null);
 
-  // Load textures
   const appleTexture = useLoader(THREE.TextureLoader, '/img/apple.png');
   const bombTexture = useLoader(THREE.TextureLoader, '/img/bomb.png');
+  
 
   // Load sounds
   const [playEat] = useSound(eatSound);
