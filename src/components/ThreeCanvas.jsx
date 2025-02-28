@@ -3,10 +3,10 @@ import { Canvas, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import useSound from 'use-sound';
 
-// Import sound effects
-import eatSound from '../sounds/eat.mp3';
-import bombSound from '../sounds/bomb.mp3';
-import gameOverSound from '../sounds/gameover.mp3';
+const eatSound = '/sounds/eat.mp3';
+const bombSound = '/sounds/bomb.mp3';
+const gameOverSound = '/sounds/gameover.mp3';
+
 
 // Constants
 const GAME_SIZE = 850;
