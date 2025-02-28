@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from '../src/App.module.scss';
+import styles from './App.module.scss'; // Correct import path
 import { useMediaQuery } from 'react-responsive';
 import ThreeCanvas from './components/ThreeCanvas';
 import ReactDOM from 'react-dom/client';
