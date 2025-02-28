@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './App.module.scss'; // Correct import path
+import './Global.scss';
 import { useMediaQuery } from 'react-responsive';
 import ThreeCanvas from './components/ThreeCanvas';
 import ReactDOM from 'react-dom/client';
@@ -16,14 +16,14 @@ function App() {
 
   if (isMobile) {
     return (
-      <div className={styles.MobileMessage}>
+      <div className="MobileMessage">
         <p>Sorry, this site is currently not available on mobile devices at this time. Please visit on a tablet, laptop, or desktop.</p>
       </div>
     );
   }
 
   return (
-    <div className={styles.App}>
+    <div className="App">
       <ThreeCanvas ref={gameRef} />
     </div>
   );
