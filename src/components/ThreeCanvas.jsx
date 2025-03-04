@@ -14,38 +14,42 @@ export default function FlappyBird() {
   const [buildings, setBuildings] = useState([]);
   const [score, setScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
+    if (!isGameStarted) return;
+
     resetGame();
     const handleKeyPress = (e) => {
       if (e.key === " ") jump();
     };
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, []);
+  }, [isGameStarted]);
 
   useEffect(() => {
-    if (isGameOver) return;
+    if (isGameOver || !isGameStarted) return;
 
     const gameLoop = setInterval(() => {
       setBirdY((prev) => prev + velocity);
       setVelocity((prev) => prev + gravity);
       moveBuildings();
       checkCollision();
+      updateScore();
     }, 30);
 
     return () => clearInterval(gameLoop);
-  }, [velocity, buildings, isGameOver]);
+  }, [velocity, buildings, isGameOver, isGameStarted]);
 
   useEffect(() => {
-    if (isGameOver) return;
+    if (isGameOver || !isGameStarted) return;
 
     const buildingTimer = setInterval(() => {
       addBuilding();
-    }, 1000); // Reduced the spawn gap to 1000ms (1 second)
+    }, 1000);
 
     return () => clearInterval(buildingTimer);
-  }, [isGameOver]);
+  }, [isGameOver, isGameStarted]);
 
   function jump() {
     setVelocity(jumpPower);
@@ -109,9 +113,25 @@ export default function FlappyBird() {
         setIsGameOver(true);
         return;
       }
+    }
+  }
 
-      if (building.x + buildingWidth === birdLeft) {
-        setScore((s) => s + 1);
+  function updateScore() {
+    const birdLeft = 200;
+    for (const building of buildings) {
+      const buildingLeft = building.x;
+      const buildingRight = building.x + buildingWidth;
+
+      // Check if the bird passes through the gap
+      if (birdLeft > buildingLeft && birdLeft < buildingRight && !building.passed) {
+        const topBuildingHeight = building.heightTop.height;
+        const bottomBuildingTop = topBuildingHeight + buildingGap;
+        const birdBottom = birdY + birdSize;
+
+        if (birdY > topBuildingHeight && birdBottom < bottomBuildingTop) {
+          setScore((prevScore) => prevScore + 1);
+          building.passed = true; // Mark this building as passed
+        }
       }
     }
   }
@@ -125,46 +145,62 @@ export default function FlappyBird() {
     return heights[Math.floor(Math.random() * heights.length)];
   }
 
+  function startGame() {
+    setIsGameStarted(true);
+  }
+
   return (
     <div style={styles.gameContainer}>
-      <div style={{ ...styles.bird, top: birdY }} />
-
-      {buildings.map((building, index) => (
-        <React.Fragment key={index}>
-          <div
-            style={{
-              ...styles.building,
-              height: building.heightTop.height,
-              left: building.x,
-              top: 0,
-              backgroundColor: buildingColor(building.heightTop.label),
-            }}
-          >
-            <div style={styles.label}>{building.heightTop.label}</div>
-          </div>
-
-          <div
-            style={{
-              ...styles.building,
-              height: gameHeight - building.heightTop.height - buildingGap,
-              left: building.x,
-              top: building.heightTop.height + buildingGap,
-              backgroundColor: buildingColor(building.heightTop.label),
-            }}
-          >
-            <div style={{ ...styles.label, top: "10px" }}>{building.heightTop.label}</div>
-          </div>
-        </React.Fragment>
-      ))}
-
-      <div style={styles.score}>{score}</div>
-
-      {isGameOver && (
-        <div style={styles.gameOver}>
-          <h2>Game Over</h2>
-          <p>Score: {score}</p>
-          <button onClick={resetGame} style={styles.button}>Restart</button>
+      {!isGameStarted ? (
+        <div style={styles.welcomeScreen}>
+          <h1 style={styles.welcomeTitle}>Welcome to Flappy Bird</h1>
+          <button onClick={startGame} style={styles.startButton}>Start Game</button>
         </div>
+      ) : (
+        <>
+          <div style={{ ...styles.bird, top: birdY }} />
+
+          {buildings.map((building, index) => (
+            <React.Fragment key={index}>
+              <div
+                style={{
+                  ...styles.building,
+                  height: building.heightTop.height,
+                  left: building.x,
+                  top: 0,
+                  backgroundColor: buildingColor(building.heightTop.label),
+                }}
+              >
+                <div style={styles.label}>{building.heightTop.label}</div>
+              </div>
+
+              <div
+                style={{
+                  ...styles.building,
+                  height: gameHeight - building.heightTop.height - buildingGap,
+                  left: building.x,
+                  top: building.heightTop.height + buildingGap,
+                  backgroundColor: buildingColor(building.heightTop.label),
+                }}
+              >
+                <div style={{ ...styles.label, top: "10px" }}>{building.heightTop.label}</div>
+              </div>
+            </React.Fragment>
+          ))}
+
+          {/* Score Overlay in the Center */}
+          <div style={styles.scoreOverlay}>
+            <div style={styles.score}>{score}</div>
+          </div>
+
+          {isGameOver && (
+            <div style={styles.gameOver}>
+              <h2>Game Over</h2>
+              <p>Score: {score}</p>
+              <button onClick={resetGame} style={styles.button}>Restart</button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -193,6 +229,32 @@ const styles = {
     border: "4px solid #000",
     margin: "20px auto",
   },
+  welcomeScreen: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    textAlign: "center",
+    color: "#fff",
+    backgroundColor: "rgba(0,0,0,0.8)",
+    padding: "30px",
+    borderRadius: "20px",
+    boxShadow: "0 0 30px rgba(0,0,0,0.8)",
+  },
+  welcomeTitle: {
+    fontSize: "48px",
+    fontWeight: "bold",
+    marginBottom: "20px",
+  },
+  startButton: {
+    padding: "20px 40px",
+    fontSize: "32px",
+    backgroundColor: "#FF4500",
+    color: "#fff",
+    border: "none",
+    cursor: "pointer",
+    borderRadius: "10px",
+  },
   bird: {
     width: "120px",
     height: "120px",
@@ -217,15 +279,20 @@ const styles = {
     color: "white",
     textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
   },
-  score: {
+  scoreOverlay: {
     position: "absolute",
-    top: "20px",
+    top: "33.5%",
     left: "50%",
-    transform: "translateX(-50%)",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: "20px 40px",
+    borderRadius: "10px",
+    zIndex: 100,
+  },
+  score: {
     fontSize: "72px",
     fontWeight: "bold",
     color: "#fff",
-    textShadow: "3px 3px 3px rgba(0,0,0,0.7)",
   },
   gameOver: {
     position: "absolute",
