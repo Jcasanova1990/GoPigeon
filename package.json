@@ -4,7 +4,7 @@
   },
   "name": "oni",
   "version": "0.1.0",
-  "description": "My Gaming Portfolio.",
+  "description": "Go Pigeon.",
   "main": "server.js",
   "scripts": {
     "dev": "vite --port 5173",
