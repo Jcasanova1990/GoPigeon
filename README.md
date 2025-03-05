@@ -34,5 +34,8 @@ CSS3
 JavaScript
 Vite
 
+# 📸 Screenshots
+![alt text](src/img/ssgop.png)
+
 📜 License
 This project is open-source and available under the MIT License.
