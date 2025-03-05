@@ -10,7 +10,7 @@ export default function FlappyBird() {
   const birdSize = 100;
   const gravity = 3.5;
   const jumpPower = -35;
-  const buildingWidth = 220;
+  const buildingWidth = 180;
   const buildingGap = 600;
 
   const [birdY, setBirdY] = useState(gameHeight / 2 - birdSize / 2);
@@ -150,9 +150,9 @@ export default function FlappyBird() {
 
   function getRandomBuildingHeight() {
     const heights = [
-      { label: "lg bldg", height: 1400 },
-      { label: "md bldg", height: 1000 },
-      { label: "sm bldg", height: 600 },
+      { label: "lg bldg", height: 1300 },
+      { label: "md bldg", height: 900 },
+      { label: "sm bldg", height: 500 },
     ];
     return heights[Math.floor(Math.random() * heights.length)];
   }
@@ -160,11 +160,11 @@ export default function FlappyBird() {
   function buildingImage(label) {
     switch (label) {
       case "lg bldg":
-        return 'url(/img/Lg_Bldg.jpg)';
+        return 'url(src/img/Large_Building.png)';
       case "md bldg":
-        return 'url(src/img/Md_Bldg.jpg)';
+        return 'url(src/img/Medium_Building.png)';
       case "sm bldg":
-        return 'url(src/img/Sm_Bldg.jpg)';
+        return 'url(src/img/Small_Building.png)';
     }
   }
 
@@ -192,7 +192,7 @@ export default function FlappyBird() {
                   left: building.x,
                   top: 0,
                   backgroundImage: buildingImage(building.heightTop.label),
-                  backgroundSize: "cover",
+                  backgroundSize: "contain",
                 }}
               >
                 <div style={styles.label}>{building.heightTop.label}</div>
@@ -205,10 +205,9 @@ export default function FlappyBird() {
                   left: building.x,
                   top: building.heightTop.height + buildingGap,
                   backgroundImage: buildingImage(building.heightTop.label),
-                  backgroundSize: "cover",
+                  backgroundSize: "contain",
                 }}
               >
-                <div style={{ ...styles.label, top: "10px" }}>{building.heightTop.label}</div>
               </div>
             </React.Fragment>
           ))}
@@ -234,7 +233,7 @@ const styles = {
   gameContainer: {
     width: "1600px",
     height: "2400px",
-    backgroundImage: 'url(src/img/gpbg.jpg)',  // The game background image
+    backgroundImage: 'url(src/img/gpbg.jpg)',
     backgroundSize: 'contain',
     position: "relative",
     overflow: "hidden",
@@ -270,29 +269,23 @@ const styles = {
   bird: {
     width: "100px",
     height: "100px",
-    backgroundImage: 'url(src/img/bird.jpg)', 
-    backgroundSize: 'contain', 
+    backgroundImage: 'url(src/img/Bird.png)',  // Keep the bird image
+    backgroundSize: 'contain',  // Make sure the bird image fits inside the div
+    backgroundRepeat: 'no-repeat',  // Prevent repeating the image
+    backgroundPosition: 'center',  // Center the image within the div
     position: "absolute",
     left: "200px",
-    borderRadius: "50%",
-    boxShadow: "0 0 20px rgba(0,0,0,0.5)",
+    borderRadius: "50%",  // Optional: to make the bird round if desired
+    boxShadow: "none",  // Remove any shadow that might be causing a background effect
   },
+  
   building: {
-    width: "240px",
+    width: "230px",
     position: "absolute",
-    border: "2px solid black",
-    backgroundSize: 'auto', 
+    backgroundSize: "cover", // or "100% 100%"
+    backgroundRepeat: "no-repeat",
   },
-  label: {
-    position: "absolute",
-    top: "5px",
-    width: "100%",
-    textAlign: "center",
-    fontSize: "48px",
-    fontWeight: "bold",
-    color: "white",
-    textShadow: "2px 2px 4px rgba(0,0,0,0.7)",
-  },
+
   scoreOverlay: {
     position: "absolute",
     top: "33.5%",
