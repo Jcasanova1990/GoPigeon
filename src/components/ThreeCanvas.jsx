@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 
+// Define sound effects
+const jumpSound = new Audio('src/sounds/flap.mp3');
+const gameOverSound = new Audio('src/sounds/go.mp3');
+
 export default function FlappyBird() {
   const gameWidth = 1600;
   const gameHeight = 2400;
   const birdSize = 100;
   const gravity = 3.5;
   const jumpPower = -35;
-  const buildingWidth = 240;
+  const buildingWidth = 220;
   const buildingGap = 600;
 
   const [birdY, setBirdY] = useState(gameHeight / 2 - birdSize / 2);
@@ -52,6 +56,9 @@ export default function FlappyBird() {
   }, [isGameOver, isGameStarted]);
 
   function jump() {
+    jumpSound.pause();
+    jumpSound.currentTime = 0;
+    jumpSound.play();
     setVelocity(jumpPower);
   }
 
@@ -81,7 +88,10 @@ export default function FlappyBird() {
 
   function checkCollision() {
     if (birdY < 0 || birdY + birdSize > gameHeight) {
-      setIsGameOver(true);
+      if (!isGameOver) {
+        gameOverSound.play();
+        setIsGameOver(true);
+      }
       return;
     }
 
@@ -110,7 +120,10 @@ export default function FlappyBird() {
       );
 
       if (hitsTopBuilding || hitsBottomBuilding) {
-        setIsGameOver(true);
+        if (!isGameOver) {
+          gameOverSound.play();
+          setIsGameOver(true);
+        }
         return;
       }
     }
@@ -122,7 +135,6 @@ export default function FlappyBird() {
       const buildingLeft = building.x;
       const buildingRight = building.x + buildingWidth;
 
-      // Check if the bird passes through the gap
       if (birdLeft > buildingLeft && birdLeft < buildingRight && !building.passed) {
         const topBuildingHeight = building.heightTop.height;
         const bottomBuildingTop = topBuildingHeight + buildingGap;
@@ -130,7 +142,7 @@ export default function FlappyBird() {
 
         if (birdY > topBuildingHeight && birdBottom < bottomBuildingTop) {
           setScore((prevScore) => prevScore + 1);
-          building.passed = true; // Mark this building as passed
+          building.passed = true;
         }
       }
     }
@@ -145,6 +157,17 @@ export default function FlappyBird() {
     return heights[Math.floor(Math.random() * heights.length)];
   }
 
+  function buildingImage(label) {
+    switch (label) {
+      case "lg bldg":
+        return 'url(/img/Lg_Bldg.jpg)';
+      case "md bldg":
+        return 'url(src/img/Md_Bldg.jpg)';
+      case "sm bldg":
+        return 'url(src/img/Sm_Bldg.jpg)';
+    }
+  }
+
   function startGame() {
     setIsGameStarted(true);
   }
@@ -153,7 +176,7 @@ export default function FlappyBird() {
     <div style={styles.gameContainer}>
       {!isGameStarted ? (
         <div style={styles.welcomeScreen}>
-          <h1 style={styles.welcomeTitle}>Welcome to Flappy Bird</h1>
+          <h1 style={styles.welcomeTitle}>Welcome to Go Pigeon</h1>
           <button onClick={startGame} style={styles.startButton}>Start Game</button>
         </div>
       ) : (
@@ -168,7 +191,8 @@ export default function FlappyBird() {
                   height: building.heightTop.height,
                   left: building.x,
                   top: 0,
-                  backgroundColor: buildingColor(building.heightTop.label),
+                  backgroundImage: buildingImage(building.heightTop.label),
+                  backgroundSize: "cover",
                 }}
               >
                 <div style={styles.label}>{building.heightTop.label}</div>
@@ -180,7 +204,8 @@ export default function FlappyBird() {
                   height: gameHeight - building.heightTop.height - buildingGap,
                   left: building.x,
                   top: building.heightTop.height + buildingGap,
-                  backgroundColor: buildingColor(building.heightTop.label),
+                  backgroundImage: buildingImage(building.heightTop.label),
+                  backgroundSize: "cover",
                 }}
               >
                 <div style={{ ...styles.label, top: "10px" }}>{building.heightTop.label}</div>
@@ -188,7 +213,6 @@ export default function FlappyBird() {
             </React.Fragment>
           ))}
 
-          {/* Score Overlay in the Center */}
           <div style={styles.scoreOverlay}>
             <div style={styles.score}>{score}</div>
           </div>
@@ -206,24 +230,12 @@ export default function FlappyBird() {
   );
 }
 
-function buildingColor(label) {
-  switch (label) {
-    case "lg bldg":
-      return "#8B0000";
-    case "md bldg":
-      return "#FF8C00";
-    case "sm bldg":
-      return "#228B22";
-    default:
-      return "gray";
-  }
-}
-
 const styles = {
   gameContainer: {
     width: "1600px",
     height: "2400px",
-    backgroundColor: "#87CEEB",
+    backgroundImage: 'url(src/img/gpbg.jpg)',  // The game background image
+    backgroundSize: 'contain',
     position: "relative",
     overflow: "hidden",
     border: "4px solid #000",
@@ -256,9 +268,10 @@ const styles = {
     borderRadius: "10px",
   },
   bird: {
-    width: "120px",
-    height: "120px",
-    backgroundColor: "yellow",
+    width: "100px",
+    height: "100px",
+    backgroundImage: 'url(src/img/bird.jpg)', 
+    backgroundSize: 'contain', 
     position: "absolute",
     left: "200px",
     borderRadius: "50%",
@@ -268,6 +281,7 @@ const styles = {
     width: "240px",
     position: "absolute",
     border: "2px solid black",
+    backgroundSize: 'auto', 
   },
   label: {
     position: "absolute",
