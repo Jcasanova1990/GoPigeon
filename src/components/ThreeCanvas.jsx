@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-// Define sound effects
 const jumpSound = new Audio('src/sounds/flap.mp3');
 const gameOverSound = new Audio('src/sounds/go.mp3');
 
@@ -269,20 +268,20 @@ const styles = {
   bird: {
     width: "100px",
     height: "100px",
-    backgroundImage: 'url(src/img/Bird.png)',  // Keep the bird image
-    backgroundSize: 'contain',  // Make sure the bird image fits inside the div
-    backgroundRepeat: 'no-repeat',  // Prevent repeating the image
-    backgroundPosition: 'center',  // Center the image within the div
+    backgroundImage: 'url(src/img/Bird.png)', 
+    backgroundSize: 'contain',  
+    backgroundRepeat: 'no-repeat',  
+    backgroundPosition: 'center', 
     position: "absolute",
     left: "200px",
-    borderRadius: "50%",  // Optional: to make the bird round if desired
-    boxShadow: "none",  // Remove any shadow that might be causing a background effect
+    borderRadius: "50%",  
+    boxShadow: "none", 
   },
   
   building: {
     width: "230px",
     position: "absolute",
-    backgroundSize: "cover", // or "100% 100%"
+    backgroundSize: "cover", 
     backgroundRepeat: "no-repeat",
   },
 
