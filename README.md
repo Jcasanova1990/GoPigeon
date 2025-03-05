@@ -4,7 +4,8 @@ Go Pigeon is a simple yet challenging arcade game where players control a small 
 
 ## 🎮 How to Play
 
-1. **Start the Game** – Open the game in your browser (gopigeon.jeremycasanova.me). The pigeon will be stationary, until you click start game.
+1. **Start the Game** – Open the game in your browser [GoPigeon](http://gopigeon.jeremycasanova.me)
+ The pigeon will be stationary, until you click start game.
 2. **Flap to Fly** – Tap the screen, click, or press the spacebar to make the pigeon flap its wings and rise.
 3. **Avoid Obstacles** – Navigate through the gaps between buildings by timing your flaps carefully. If the pigeon hits a building or the ground, the game is over.
 4. **Score Points** – Earn points for each building successfully passed. Try to beat your high score!
@@ -22,7 +23,7 @@ cd GoPigeon
 3. Install dependencies:
 npm i
 
-4.Build the project:
+4. Build the project:
 npx vite build
 
 5. Start the development server:
