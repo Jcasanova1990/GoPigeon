@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-const jumpSound = new Audio('src/sounds/flap.mp3');
-const gameOverSound = new Audio('src/sounds/go.mp3');
+const jumpSound = new Audio('/sounds/flap.mp3');
+const gameOverSound = new Audio('/sounds/go.mp3');
 
 export default function FlappyBird() {
   const gameWidth = 1600;
@@ -159,11 +159,11 @@ export default function FlappyBird() {
   function buildingImage(label) {
     switch (label) {
       case "lg bldg":
-        return 'url(src/img/Large_Building.png)';
+        return 'url(/img/Large_Building.png)';
       case "md bldg":
-        return 'url(src/img/Medium_Building.png)';
+        return 'url(/img/Medium_Building.png)';
       case "sm bldg":
-        return 'url(src/img/Small_Building.png)';
+        return 'url(/img/Small_Building.png)';
     }
   }
 
@@ -232,7 +232,7 @@ const styles = {
   gameContainer: {
     width: "1600px",
     height: "2400px",
-    backgroundImage: 'url(src/img/gpbg.jpg)',
+    backgroundImage: 'url(/img/gpbg.jpg)',
     backgroundSize: 'contain',
     position: "relative",
     overflow: "hidden",
@@ -268,7 +268,7 @@ const styles = {
   bird: {
     width: "100px",
     height: "100px",
-    backgroundImage: 'url(src/img/Bird.png)', 
+    backgroundImage: 'url(/img/Bird.png)', 
     backgroundSize: 'contain',  
     backgroundRepeat: 'no-repeat',  
     backgroundPosition: 'center', 
