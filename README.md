@@ -19,16 +19,16 @@ Go Pigeon is a simple yet challenging arcade game where players control a small 
 2. Navigate to the project folder:
 cd GoPigeon
 
-3.Install dependencies:
+3. Install dependencies:
 npm i
 
 4.Build the project:
 npx vite build
 
-5.Start the development server:
+5. Start the development server:
 npm run dev
 
-🛠 Technologies Used
+# 🛠 Technologies Used
 HTML5 Canvas
 CSS3
 JavaScript
